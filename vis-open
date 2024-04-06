@@ -33,8 +33,11 @@ wrap_dirs() {
 	done
 }
 
-VIS_OPEN_LINES="${VIS_OPEN_LINES:-0}"
-VIS_MENU_PROMPT=''
+
+if [ "${VIS_OPEN_LINES:=0}" -lt 3 ]; then
+	VIS_OPEN_LINES='5'
+fi
+VIS_MENU_PROMPT='> '
 ALLOW_AUTO_SELECT='1'
 
 while getopts fhp: opt; do
@@ -83,7 +86,7 @@ fi
 
 # At this point, we have a bunch of options we need to present to the
 # user so they can pick one.
-CHOICE="$(printf '%s\n' '..' "$@" | wrap_dirs | vis-menu -b -l "$VIS_OPEN_LINES" -p "$VIS_MENU_PROMPT")"
+CHOICE="$(printf '%s\n' '..' "$@" | wrap_dirs | fzy -l "$VIS_OPEN_LINES" -p "$VIS_MENU_PROMPT")"
 
 # Did they pick a file or directory? Who knows, let's let the next iteration figure it out.
 exec "$0" -p "$VIS_MENU_PROMPT" -- "$CHOICE"

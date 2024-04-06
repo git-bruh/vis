@@ -84,6 +84,6 @@ else
 		sort |
 		sed "s|^$(dirname "$XPATTERN")/||"
 fi |
-	vis-menu -b |
+	fzy -l 5 |
 	sed "s|^$(basename "$PATTERN")$(echo "$PATTERN" | tail -c 2 | grep -F /)||" |
 	tr -d '\n'
