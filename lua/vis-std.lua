@@ -63,6 +63,12 @@ vis.events.subscribe(vis.events.WIN_HIGHLIGHT, function(win)
 	viewport.start = lex_start
 	local data = win.file:content(viewport)
 	local token_styles = lexer._TAGS
+	if lex_start ~= 0 then
+		local first_newline = (data:find('\n') or 1)
+
+		data = data:sub(first_newline, #data)
+		lex_start = lex_start + first_newline - 1
+	end
 	local tokens = lexer:lex(data, 1)
 	local token_end = lex_start + ((tokens[#tokens] and tokens[#tokens] - 1) or 1) - 1
 
