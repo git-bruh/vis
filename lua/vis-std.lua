@@ -64,7 +64,7 @@ vis.events.subscribe(vis.events.WIN_HIGHLIGHT, function(win)
 	local data = win.file:content(viewport)
 	local token_styles = lexer._TAGS
 	local tokens = lexer:lex(data, 1)
-	local token_end = lex_start + (tokens[#tokens] or 1) - 1
+	local token_end = lex_start + ((tokens[#tokens] and tokens[#tokens] - 1) or 1) - 1
 
 	for i = #tokens - 1, 1, -2 do
 		local token_start = lex_start + (tokens[i-1] or 1) - 1
